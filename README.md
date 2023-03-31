@@ -9,7 +9,7 @@
 ## Install
 
 ```cli
-composer instal diolan12/dijkstra
+composer require diolan12/dijkstra
 ```
 
 ## Usage
