@@ -15,6 +15,8 @@ composer require diolan12/dijkstra
 ## Usage
 
 ```php
+use Diolan12\Dijkstra\Dijkstra;
+
 $dijkstra = new Dijkstra();
 
 // Add vertices and edges
