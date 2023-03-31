@@ -1,0 +1,20 @@
+{
+    "name": "diolan12/dijkstra",
+    "description": "PHP implementation on Dijkstra algorithm",
+    "autoload": {
+        "psr-4": {
+            "Diolan12\\Dijkstra\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Dio Lantief Widoyoko",
+            "email": "dio_lantief21@outlook.com"
+        }
+    ],
+    "minimum-stability": "alpha",
+    "require": {}
+}
