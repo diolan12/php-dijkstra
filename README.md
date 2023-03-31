@@ -25,3 +25,9 @@ $dijkstra->addVertex('D', ['B' => 5, 'C' => 6]);
 
 $paths = $dijkstra->findShortestPath('A', 'D'); // [A, C, D]
 ```
+
+## Dev Test
+
+```cli
+./vendor/bin/phpunit tests
+```
