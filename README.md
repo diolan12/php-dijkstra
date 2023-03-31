@@ -18,10 +18,10 @@ composer instal diolan12/dijkstra
 $dijkstra = new Dijkstra();
 
 // Add vertices and edges
-$dijkstra->addVertex('A', array('B' => 3, 'C' => 2));
-$dijkstra->addVertex('B', array('A' => 3, 'C' => 1, 'D' => 5));
-$dijkstra->addVertex('C', array('A' => 2, 'B' => 1, 'D' => 6));
-$dijkstra->addVertex('D', array('B' => 5, 'C' => 6));
+$dijkstra->addVertex('A', ['B' => 3, 'C' => 2]);
+$dijkstra->addVertex('B', ['A' => 3, 'C' => 1, 'D' => 5]);
+$dijkstra->addVertex('C', ['A' => 2, 'B' => 1, 'D' => 6]);
+$dijkstra->addVertex('D', ['B' => 5, 'C' => 6]);
 
-$paths = $dijkstra->findShortestPath('A', 'D');
+$paths = $dijkstra->findShortestPath('A', 'D'); // [A, C, D]
 ```
