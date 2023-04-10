@@ -1,10 +1,9 @@
+# Dijkstra PHP Implementation
 
 [![PHP Composer](https://github.com/diolan12/dijkstra/actions/workflows/php.yml/badge.svg)](https://github.com/diolan12/dijkstra/actions/workflows/php.yml)
 [![Downloads](https://img.shields.io/packagist/dt/diolan12/dijkstra)](https://packagist.org/packages/diolan12/dijkstra)
 [![Latest Stable Version](https://img.shields.io/packagist/v/diolan12/dijkstra)](https://packagist.org/packages/diolan12/dijkstra)
 [![License](https://img.shields.io/packagist/l/diolan12/dijkstra)](https://packagist.org/packages/diolan12/dijkstra)
-
-# Dijkstra PHP Implementation
 
  A simple PHP implementation for Dijkstra's algorithm
 
