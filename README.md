@@ -1,3 +1,10 @@
+<p align="center">
+<a href="https://github.com/diolan12/dijkstra/actions"><img src="https://github.com/diolan12/dijkstra/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/diolan12/dijkstra"><img src="https://img.shields.io/packagist/dt/diolan12/dijkstra" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/diolan12/dijkstra"><img src="https://img.shields.io/packagist/v/diolan12/dijkstra" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/diolan12/dijkstra"><img src="https://img.shields.io/packagist/l/diolan12/dijkstra" alt="License"></a>
+</p>
+
 # Dijkstra PHP Implementation
 
  A simple PHP implementation for Dijkstra's algorithm
