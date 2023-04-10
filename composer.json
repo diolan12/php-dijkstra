@@ -18,8 +18,7 @@
     ],
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/",
-            "test": "vendor/bin/phpunit"
+            "Tests\\": "tests/"
         }
     },
     "minimum-stability": "alpha",
