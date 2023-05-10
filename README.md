@@ -23,6 +23,8 @@ composer require diolan12/dijkstra
 use Diolan12\Dijkstra\Dijkstra;
 
 $dijkstra = new Dijkstra();
+// or
+$dijkstra = Dijkstra::instance();
 
 // Add vertices and edges
 $dijkstra->addVertex('A', ['B' => 3, 'C' => 2]);
