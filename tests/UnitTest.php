@@ -12,7 +12,7 @@ class UnitTest extends TestCase {
      */
     public function testShortestPath()
     {
-        $dijkstra = new Dijkstra();
+        $dijkstra = Dijkstra::instance();
 
         // Add vertices and edges
         $dijkstra->addVertex('A', ['B' => 3, 'C' => 2]);
