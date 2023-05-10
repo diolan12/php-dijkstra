@@ -27,7 +27,6 @@ class UnitTest extends TestCase
 
         $this->assertEquals(5581.355485546551, $distanceInKm);
         $this->assertEquals(3468.3073877379993, $distanceInMi);
-
     }
 
     /**
@@ -43,7 +42,7 @@ class UnitTest extends TestCase
         $dijkstra->addVertex('A', ['B' => 3, 'C' => 2]);
         $dijkstra->addVertex('B', ['A' => 3, 'C' => 1, 'D' => 5]);
         $dijkstra->addVertex('C', ['A' => 2, 'B' => 1, 'D' => 6]);
-        $dijkstra->addEdge('D', 'B', 5)->addEdge('D', 'C', 6);
+        $dijkstra->addEdge('D', 'B', calcDist(1, 3, 1, 6))->addEdge('D', 'C', 6); // 5
 
         $paths = $dijkstra->findShortestPath('A', 'D');
 
