@@ -8,7 +8,6 @@ namespace Diolan12\Dijkstra;
 class Dijkstra
 {
     private $vertices = [];
-    private $edges = [];
 
     /**
      * Return Dijkstra's instance
@@ -19,16 +18,30 @@ class Dijkstra
         return new self();
     }
 
+    /**
+     * Add a vertex to the graph with its neighboring edges.
+     *
+     * @param string $name The name of the vertex.
+     * @param array $edges An associative array representing the neighboring vertices and their edge weights.
+     * @return \Diolan12\Dijkstra\Dijkstra
+     */
     public function addVertex($name, $edges)
     {
         $this->vertices[$name] = $edges;
-        $this->edges[$name] = [];
         return $this;
     }
 
+    /**
+     * Add an edge between two vertices with a given weight.
+     *
+     * @param string $src The source vertex.
+     * @param string $dest The destination vertex.
+     * @param int $weight The weight or cost of the edge.
+     * @return \Diolan12\Dijkstra\Dijkstra
+     */
     public function addEdge($src, $dest, $weight)
     {
-        $this->edges[$src][$dest] = $weight;
+        $this->vertices[$src][$dest] = $weight;
         return $this;
     }
 
