@@ -27,8 +27,10 @@ $dijkstra->addVertex('D', ['B' => 5, 'C' => 6]);
 ```
 
 ```php
-use Diolan12\Dijkstra\Dijkstra;
+use Diolan12\Dijkstra;
 
+$dijkstra = new \Diolan12\Dijkstra();
+// or
 $dijkstra = new Dijkstra();
 // or
 $dijkstra = Dijkstra::instance();
