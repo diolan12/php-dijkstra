@@ -2,7 +2,7 @@
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
-use Diolan12\Dijkstra\Dijkstra;
+use Diolan12\Dijkstra;
 
 class UnitTest extends TestCase
 {

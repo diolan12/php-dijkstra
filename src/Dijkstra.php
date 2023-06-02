@@ -1,5 +1,5 @@
 <?php
-namespace Diolan12\Dijkstra;
+namespace Diolan12;
 
 /**
  * A class that represents a network of cable routes.
@@ -11,7 +11,7 @@ class Dijkstra
 
     /**
      * Return Dijkstra's instance
-     * @return \Diolan12\Dijkstra\Dijkstra
+     * @return \Diolan12\Dijkstra
      */
     public static function instance()
     {
@@ -23,7 +23,7 @@ class Dijkstra
      *
      * @param string $name The name of the vertex.
      * @param array $edges An associative array representing the neighboring vertices and their edge weights.
-     * @return \Diolan12\Dijkstra\Dijkstra
+     * @return \Diolan12\Dijkstra
      */
     public function addVertex($name, $edges)
     {
@@ -37,7 +37,7 @@ class Dijkstra
      * @param string $src The source vertex.
      * @param string $dest The destination vertex.
      * @param int $weight The weight or cost of the edge.
-     * @return \Diolan12\Dijkstra\Dijkstra
+     * @return \Diolan12\Dijkstra
      */
     public function addEdge($src, $dest, $weight)
     {
