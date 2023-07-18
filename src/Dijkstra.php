@@ -39,9 +39,12 @@ class Dijkstra
      * @param int $weight The weight or cost of the edge.
      * @return \Diolan12\Dijkstra
      */
-    public function addEdge($src, $dest, $weight)
+    public function addEdge($src, $dest, $weight, $reversible = false)
     {
         $this->vertices[$src][$dest] = $weight;
+        if ($reversible){
+            $this->vertices[$dest][$src] = $weight;
+        }
         return $this;
     }
 
