@@ -69,7 +69,7 @@ class Dijkstra
         $distances[$start] = 0;
 
         if (!isset($visited[$end])) {
-            throw new \Exception('Route not found "' . $end . '"', $end);
+            throw new NoPathException('Route not found "' . $end . '"', $end);
         }
         while ($visited[$end] === false) {
             $current = null;
@@ -99,7 +99,7 @@ class Dijkstra
 
         while ($current !== $start) {
             if ($current == null) {
-                throw new \Exception('Route not found "' . $end . '"', $end);
+                throw new NoPathException('Route not found "' . $end . '"', $end);
             }
             array_unshift($path, $current);
             $current = $previous[$current];
