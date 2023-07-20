@@ -1,4 +1,5 @@
 <?php
+
 namespace Diolan12;
 
 /**
@@ -7,15 +8,38 @@ namespace Diolan12;
  */
 class Dijkstra
 {
+    private $prefix = '#';
     private $vertices = [];
+
+    public function __construct($graph = [])
+    {
+        $prefixedVertices = [];
+        foreach ($graph as $k => $edges) {
+            $prefixedName = $this->setPrefix($k);
+            $prefixedVertices[$prefixedName] = [];
+            foreach ($edges as $edgeKey => $edgeValue) {
+                $prefixedVertices[$prefixedName][$this->setPrefix($edgeKey)] = $edgeValue;
+            }
+        }
+        $this->vertices = $prefixedVertices;
+    }
+
+    private function setPrefix(string $value)
+    {
+        return $this->prefix . $value;
+    }
+    private function unPrefix(string $value)
+    {
+        return substr($value, 1);
+    }
 
     /**
      * Return Dijkstra's instance
      * @return \Diolan12\Dijkstra
      */
-    public static function instance()
+    public static function instance($graph = [])
     {
-        return new self();
+        return new self($graph);
     }
 
     /**
@@ -27,7 +51,11 @@ class Dijkstra
      */
     public function addVertex($name, $edges)
     {
-        $this->vertices[$name] = $edges;
+        $prefixedName = [];
+        foreach ($edges as $key => $value) {
+            $prefixedName[$this->setPrefix($key)] = $value;
+        }
+        $this->vertices[$this->setPrefix($name)] = $prefixedName;
         return $this;
     }
 
@@ -41,9 +69,9 @@ class Dijkstra
      */
     public function addEdge($src, $dest, $weight, $reversible = false)
     {
-        $this->vertices[$src][$dest] = $weight;
-        if ($reversible){
-            $this->vertices[$dest][$src] = $weight;
+        $this->vertices[$this->setPrefix($src)][$this->setPrefix($dest)] = $weight;
+        if ($reversible) {
+            $this->vertices[$this->setPrefix($dest)][$this->setPrefix($src)] = $weight;
         }
         return $this;
     }
@@ -52,10 +80,12 @@ class Dijkstra
      * Dijkstra's shortest path algorithm
      * [Wikipedia](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)
      * @see https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
-     * @throws \Exception
+     * @throws \Diolan12\NoPathException
      */
     public function findShortestPath($start, $end)
     {
+        $start = $this->setPrefix($start);
+        $end = $this->setPrefix($end);
         $distances = [];
         $visited = [];
         $previous = [];
@@ -69,7 +99,7 @@ class Dijkstra
         $distances[$start] = 0;
 
         if (!isset($visited[$end])) {
-            throw new \Exception('Route not found "' . $end . '"', $end);
+            throw new NoPathException('Route not found "' . $this->unPrefix($end) . '"');
         }
         while ($visited[$end] === false) {
             $current = null;
@@ -99,13 +129,17 @@ class Dijkstra
 
         while ($current !== $start) {
             if ($current == null) {
-                throw new \Exception('Route not found "' . $end . '"', $end);
+                throw new NoPathException('Route not found "' . $this->unPrefix($end) . '"');
             }
             array_unshift($path, $current);
             $current = $previous[$current];
         }
 
         array_unshift($path, $start);
+
+        foreach ($path as $k => $p) {
+            $path[$k] = $this->unPrefix($p);
+        }
 
         return $path;
     }
