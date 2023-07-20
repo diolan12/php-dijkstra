@@ -9,13 +9,18 @@ class Dijkstra
 {
     private $vertices = [];
 
+    public function __construct($graph = [])
+    {
+        $this->vertices = $graph;
+    }
+    
     /**
      * Return Dijkstra's instance
      * @return \Diolan12\Dijkstra
      */
-    public static function instance()
+    public static function instance($graph = [])
     {
-        return new self();
+        return new self($graph);
     }
 
     /**
