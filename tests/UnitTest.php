@@ -1,8 +1,10 @@
 <?php
+
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 use Diolan12\Dijkstra;
+use Diolan12\NoPathException;
 
 class UnitTest extends TestCase
 {
@@ -46,9 +48,100 @@ class UnitTest extends TestCase
 
         $paths = $dijkstra->findShortestPath('A', 'D');
 
-        $this->assertEquals(3, count($paths));
-        $this->assertEquals('A', $paths[0]);
-        $this->assertEquals('C', $paths[1]);
-        $this->assertEquals('D', $paths[2]);
+        $this->assertEquals(3, count($paths), 'Shortest path should be 3 array');
+        $this->assertEquals('A', $paths[0], 'First node should be A');
+        $this->assertEquals('C', $paths[1], 'First node should be C');
+        $this->assertEquals('D', $paths[2], 'First node should be D');
+    }
+
+    /**
+     * Test Dijkstra class instantiation with graph
+     *
+     * @return void
+     */
+    public function testGraphParam()
+    {
+        // Build graph
+        $graph = [
+            'A' => [
+                'B' => 3,
+                'C' => 2
+            ],
+            'B' => [
+                'A' => 3,
+                'C' => 1,
+                'D' => 5
+            ],
+            'C' => [
+                'A' => 2,
+                'B' => 1,
+                'D' => 6
+            ],
+            'D' => [
+                'B' => calcDist(1, 3, 1, 6),
+                'C' => 6
+            ]
+        ];
+
+        $dijkstra = Dijkstra::instance($graph);
+
+        $paths = $dijkstra->findShortestPath('A', 'D');
+
+        $this->assertEquals(3, count($paths), 'Shortest path should be 3 array');
+        $this->assertEquals('A', $paths[0], 'First node should be A');
+        $this->assertEquals('C', $paths[1], 'First node should be C');
+        $this->assertEquals('D', $paths[2], 'First node should be D');
+    }
+
+    /**
+     * Test Dijkstra class using numerical node names
+     *
+     * @return void
+     */
+    public function testNumericalNames()
+    {
+        $graph = [
+            '1' => [
+                '2' => 3,
+                '3' => 2
+            ]
+        ];
+        $dijkstra = Dijkstra::instance($graph);
+
+        $dijkstra->addVertex('2', ['1' => 3, '3' => 1, '4' => 5]);
+        $dijkstra->addVertex('3', ['1' => 2, '2' => 1, '4' => 6]);
+        $dijkstra->addEdge('4', '2', calcDist(1, 3, 1, 6))->addEdge('4', '3', 6); // 5
+
+        $paths = $dijkstra->findShortestPath('1', '4');
+
+        $this->assertEquals(3, count($paths), 'Node should be 3 array');
+        $this->assertEquals('1', $paths[0], 'First node should be 1');
+        $this->assertEquals('3', $paths[1], 'First node should be 3');
+        $this->assertEquals('4', $paths[2], 'First node should be 4');
+    }
+
+    /**
+     * Test Dijkstra findShortestPath exception
+     *
+     * @return void
+     */
+    public function testException()
+    {
+        $graph = [
+            '1' => [
+                '2' => 3,
+                '3' => 2
+            ]
+        ];
+        $dijkstra = Dijkstra::instance($graph);
+
+        $dijkstra->addVertex('2', ['1' => 3, '3' => 1, '4' => 5]);
+        $dijkstra->addVertex('3', ['1' => 2, '2' => 1, '4' => 6]);
+        $dijkstra->addEdge('4', '2', calcDist(1, 3, 1, 6))->addEdge('4', '3', 6); // 5
+
+        $this->expectException(NoPathException::class, 'Should be using custom exception');
+        $this->expectExceptionMessage('Route not found "5"');
+
+        $dijkstra->findShortestPath('1', '5');
     }
 }
