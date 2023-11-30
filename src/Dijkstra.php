@@ -106,10 +106,12 @@ class Dijkstra
             $minDist = INF;
 
             foreach ($distances as $vertex => $dist) {
-                if ($visited[$vertex] === false && $dist <= $minDist) {
-                    $minDist = $dist;
-                    $current = $vertex;
-                }
+                if (array_key_exists($vertex, $visited)){
+                    if ($visited[$vertex] === false && $dist <= $minDist) {
+                        $minDist = $dist;
+                        $current = $vertex;
+                    }
+                } else throw new NoPathException('Edge "' . $this->unPrefix($vertex) . '" not found');
             }
 
             foreach ($this->vertices[$current] as $neighbor => $cost) {
