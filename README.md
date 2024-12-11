@@ -19,6 +19,8 @@ composer require diolan12/dijkstra
 
 ## Usage
 
+![Dijkstra_Animation](graph.png)
+
 ### Using `addVertex` or `addEdge` method
 
 ```php
@@ -38,12 +40,12 @@ $dijkstra = new Dijkstra();
 $dijkstra = Dijkstra::instance();
 
 // Add vertices and edges
-$dijkstra->addVertex('A', ['B' => 3, 'C' => 2]);
-$dijkstra->addVertex('B', ['A' => 3, 'C' => 1, 'D' => 5]);
+$dijkstra->addVertex('A', ['B' => 4, 'C' => 2]);
+$dijkstra->addVertex('B', ['A' => 4, 'C' => 1, 'D' => 4]);
 $dijkstra->addVertex('C', ['A' => 2, 'B' => 1, 'D' => 6]);
-$dijkstra->addEdge('D', 'B', 5, true)->addEdge('D', 'C', 6, true);
+$dijkstra->addEdge('D', 'B', 4, true)->addEdge('D', 'C', 6, true);
 
-$paths = $dijkstra->findShortestPath('A', 'D'); // [A, C, D]
+$paths = $dijkstra->findShortestPath('A', 'D'); // [A, C, B, D]
 ```
 
 ### Using graph via class instantiation
@@ -53,13 +55,13 @@ Creating graph like this
 ```php
 $graph = [
     'A' => [
-        'B' => 3,
+        'B' => 4,
         'C' => 2
     ],
     'B' => [
-        'A' => 3,
+        'A' => 4,
         'C' => 1,
-        'D' => 5
+        'D' => 4
     ],
     'C' => [
         'A' => 2,
@@ -67,7 +69,7 @@ $graph = [
         'D' => 6
     ],
     'D' => [
-        'B' => calcDist(1, 3, 1, 6),
+        'B' => 4,
         'C' => 6
     ]
 ];
@@ -78,10 +80,10 @@ $dijkstra = Dijkstra::instance($graph);
 Is the same with this method
 
 ```php
-$dijkstra->addVertex('A', ['B' => 3, 'C' => 2]);
-$dijkstra->addVertex('B', ['A' => 3, 'C' => 1, 'D' => 5]);
+$dijkstra->addVertex('A', ['B' => 4, 'C' => 2]);
+$dijkstra->addVertex('B', ['A' => 4, 'C' => 1, 'D' => 4]);
 $dijkstra->addVertex('C', ['A' => 2, 'B' => 1, 'D' => 6]);
-$dijkstra->addEdge('D', 'B', 5)->addEdge('D', 'C', 6);
+$dijkstra->addEdge('D', 'B', 4)->addEdge('D', 'C', 6);
 ```
 
 ## Method `addVertex` vs `addEdge`
