@@ -65,10 +65,13 @@ class Dijkstra
      * @param string $src The source vertex.
      * @param string $dest The destination vertex.
      * @param int $weight The weight or cost of the edge.
+     * @param bool $reversible (optional) Whether the edge is reversible. Default is false.
+     * @throws \InvalidArgumentException if the weight is negative.
      * @return \Diolan12\Dijkstra
      */
     public function addEdge($src, $dest, $weight, $reversible = false)
     {
+        if ($weight < 0) throw new \InvalidArgumentException('Weight must be non-negative.');
         $this->vertices[$this->setPrefix($src)][$this->setPrefix($dest)] = $weight;
         if ($reversible) {
             $this->vertices[$this->setPrefix($dest)][$this->setPrefix($src)] = $weight;
@@ -84,35 +87,37 @@ class Dijkstra
      */
     public function findShortestPath($start, $end)
     {
-        $start = $this->setPrefix($start);
-        $end = $this->setPrefix($end);
+        $startPrefix = $this->setPrefix($start);
+        $endPrefix = $this->setPrefix($end);
+
         $distances = [];
-        $visited = [];
         $previous = [];
+        $queue = new \SplPriorityQueue();
 
-        foreach ($this->vertices as $vertex => $edges) {
-            $distances[$vertex] = INF;
-            $visited[$vertex] = false;
-            $previous[$vertex] = null;
-        }
-
-        $distances[$start] = 0;
-
-        if (!isset($visited[$end])) {
-            throw new NoPathException('Route not found "' . $this->unPrefix($end) . '"');
-        }
-        while ($visited[$end] === false) {
-            $current = null;
-            $minDist = INF;
-
-            foreach ($distances as $vertex => $dist) {
-                if (array_key_exists($vertex, $visited)){
-                    if ($visited[$vertex] === false && $dist <= $minDist) {
-                        $minDist = $dist;
-                        $current = $vertex;
-                    }
-                } else throw new NoPathException('Edge "' . $this->unPrefix($vertex) . '" not found');
+        // 1. We need to collect ALL possible vertices (sources and destinations)
+        // to initialize distances correctly.
+        foreach ($this->vertices as $v => $edges) {
+            $distances[$v] = INF;
+            foreach ($edges as $neighbor => $cost) {
+                $distances[$neighbor] = INF;
             }
+        }
+
+        // 2. Check if the start and end actually exist in our graph data
+        if (!array_key_exists($startPrefix, $distances) || !array_key_exists($endPrefix, $distances)) {
+            throw new NoPathException('Route target not found "' . $this->unPrefix($endPrefix) . '"');
+        }
+
+        $distances[$startPrefix] = 0;
+        $queue->insert($startPrefix, 0);
+
+        while (!$queue->isEmpty()) {
+            $current = $queue->extract();
+
+            if ($current === $endPrefix) break;
+
+            // If we don't have outgoing edges from this node, skip it
+            if (!isset($this->vertices[$current])) continue;
 
             foreach ($this->vertices[$current] as $neighbor => $cost) {
                 $alt = $distances[$current] + $cost;
@@ -120,27 +125,24 @@ class Dijkstra
                 if ($alt < $distances[$neighbor]) {
                     $distances[$neighbor] = $alt;
                     $previous[$neighbor] = $current;
+                    $queue->insert($neighbor, -$alt);
                 }
             }
-
-            $visited[$current] = true;
         }
 
+        // 3. Reconstruct path
         $path = [];
-        $current = $end;
+        $curr = $endPrefix;
 
-        while ($current !== $start) {
-            if ($current == null) {
-                throw new NoPathException('Route not found "' . $this->unPrefix($end) . '"');
-            }
-            array_unshift($path, $current);
-            $current = $previous[$current];
+        while ($curr !== null) {
+            array_unshift($path, $this->unPrefix($curr));
+            if ($curr === $startPrefix) break;
+            $curr = isset($previous[$curr]) ? $previous[$curr] : null;
         }
 
-        array_unshift($path, $start);
-
-        foreach ($path as $k => $p) {
-            $path[$k] = $this->unPrefix($p);
+        // If the path doesn't start with our start node, it's a broken route
+        if ($path[0] !== (string)$start) {
+            throw new NoPathException('Route target not found "' . $this->unPrefix($endPrefix) . '"');
         }
 
         return $path;

@@ -145,7 +145,7 @@ class UnitTest extends TestCase
         $dijkstra->addEdge('4', '2', calcDist(1, 3, 1, 6))->addEdge('4', '3', 6); // 5
 
         $this->expectException(NoPathException::class, 'Should be using custom exception');
-        $this->expectExceptionMessage('Route not found "5"');
+        $this->expectExceptionMessage('Route target not found "5"');
 
         $dijkstra->findShortestPath('1', '5');
     }
